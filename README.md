@@ -1,6 +1,6 @@
 # ToDoApp
 
-- [Kotlin](https://kotlinlang.org/) - Programming language used in the app.
+- [Kotlin](https://kotlinlang.org/)
 - [Navigation Component](https://developer.android.com/guide/navigation/navigation-getting-started)
 - [DataBinding](https://developer.android.com/topic/libraries/data-binding)
 - [ViewBinding](https://developer.android.com/topic/libraries/view-binding)
