@@ -54,12 +54,6 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
                 binding.recyclerView.scheduleLayoutAnimation()
             }
         }
-//        todoViewModel.getAllData.observe(viewLifecycleOwner) { data ->
-//            sharedViewModel.checkIfDatabaseEmpty(data)
-//            listAdapter.setData(data)
-//            binding.recyclerView.scheduleLayoutAnimation()
-//        }
-
         return binding.root
     }
 
@@ -83,12 +77,18 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
 
                     R.id.menu_delete_all -> confirmDeleteAll()
 
-                    R.id.menu_priority_high -> lifecycleScope.launchWhenCreated {
-                        todoViewModel.sortByHighPriority.collect { listAdapter.setData(it) }
+                    R.id.menu_priority_high -> {
+                        todoViewModel.sortByHighPriority()
+                        lifecycleScope.launchWhenCreated {
+                            todoViewModel.sortByHighPriority.collect { listAdapter.setData(it) }
+                        }
                     }
 
-                    R.id.menu_priority_low -> lifecycleScope.launchWhenCreated {
-                        todoViewModel.sortByLowPriority.collect { listAdapter.setData(it) }
+                    R.id.menu_priority_low -> {
+                        todoViewModel.sortByLowPriority()
+                        lifecycleScope.launchWhenCreated {
+                            todoViewModel.sortByLowPriority.collect { listAdapter.setData(it) }
+                        }
                     }
 
                     android.R.id.home -> requireActivity().onBackPressedDispatcher.onBackPressed()

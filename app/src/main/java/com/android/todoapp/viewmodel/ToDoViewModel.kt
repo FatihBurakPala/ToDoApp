@@ -17,8 +17,6 @@ class ToDoViewModel @Inject constructor(private val repository: ToDoRepository) 
 
     init {
         getAllData()
-        sortByHighPriority()
-        sortByLowPriority()
     }
 
     /* ------------------------------ Get All Data ------------------------------ */
@@ -33,7 +31,7 @@ class ToDoViewModel @Inject constructor(private val repository: ToDoRepository) 
     private var _sortByHighPriority = MutableStateFlow<List<ToDoModel>>(emptyList())
     val sortByHighPriority: StateFlow<List<ToDoModel>> = _sortByHighPriority
 
-    private fun sortByHighPriority() = viewModelScope.launch {
+    fun sortByHighPriority() = viewModelScope.launch {
         repository.sortByHighPriority.collect { _sortByHighPriority.value = it }
     }
 
@@ -41,39 +39,34 @@ class ToDoViewModel @Inject constructor(private val repository: ToDoRepository) 
     private var _sortByLowPriority = MutableStateFlow<List<ToDoModel>>(emptyList())
     val sortByLowPriority: StateFlow<List<ToDoModel>> = _sortByLowPriority
 
-    private fun sortByLowPriority() = viewModelScope.launch {
+    fun sortByLowPriority() = viewModelScope.launch {
         repository.sortByLowPriority.collect { _sortByLowPriority.value = it }
     }
 
-    /* ---------------------- Insert Data ---------------------- */
     fun insertData(todoData: ToDoModel) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.insertData(todoData)
         }
     }
 
-    /* ---------------------- Update Data ---------------------- */
     fun updateData(todoData: ToDoModel) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.updateData(todoData)
         }
     }
 
-    /* ---------------------- Delete Data ---------------------- */
     fun deleteItem(todoData: ToDoModel) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.deleteData(todoData)
         }
     }
 
-    /* ---------------------- Delete All ---------------------- */
     fun deleteAll() {
         viewModelScope.launch(Dispatchers.IO) {
             repository.deleteAllData()
         }
     }
 
-    /* -------------------- Search Database -------------------- */
     fun searchDatabase(searchQuery: String): Flow<List<ToDoModel>> {
         return repository.searchDatabase(searchQuery)
     }
